@@ -11,8 +11,8 @@ class App(tk.Tk):
 
         self.title('Insert Slot Checking by Safem0de V 0.1.0')
         # self.state('zoomed')
-        self.geometry('+1920+10')
-        # self.geometry('+10+10')
+        # self.geometry('+1920+10')
+        self.geometry('+10+10')
 
         # create a view and place it on the root window
         view = MainMenu(self)

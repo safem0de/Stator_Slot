@@ -11,7 +11,7 @@ from ttkthemes import ThemedStyle
 from Controllers.statorAssyController import statorAssy
 from Models.StatorAssy import StatorAssyDetail
 
-from playsound import playsound
+from pygame import mixer
 from threading import Thread
 import openpyxl
 import pandas as pd
@@ -230,7 +230,6 @@ class MainMenu(ttk.Frame):
             cvs.create_oval(x0, y0, x1, y1, fill='green2')
 
         def onSelected_Table(event,value):
-
             try :
                 match = re.search(r'\d{1,}', value)
                 num = int(match.group())
@@ -239,12 +238,13 @@ class MainMenu(ttk.Frame):
                     createGreenLight(self.canvasTable)
                     self.txtArranger.focus()
                 else:
-                    Thread(correct(False)).start()
+                    Thread(correct()).start()
                     Thread(message_box(['Format Not Correct !!! (ข้อมูลผิดพลาด)','กรุณาตรวจสอบความถูกต้อง'],value)).start()
                     Thread(focus_in(event,self.table_cb,self.canvasTable)).start()
                     return
+
             except Exception as e:
-                Thread(correct(False)).start()
+                Thread(correct()).start()
                 Thread(message_box(['Format Not Correct !!! (ข้อมูลผิดพลาด)','กรุณาตรวจสอบความถูกต้อง'],value)).start()
                 Thread(focus_in(event,self.table_cb,self.canvasTable)).start()
                 return
@@ -258,7 +258,7 @@ class MainMenu(ttk.Frame):
                 createGreenLight(self.canvasArranger)
                 self.txtOperator.focus()
             else:
-                Thread(correct(False)).start()
+                Thread(correct()).start()
                 Thread(message_box(['Format Not Correct !!! (ข้อมูลผิดพลาด)','กรุณาตรวจสอบความถูกต้อง'],value)).start()
                 Thread(focus_in(event,self.txtArranger,self.canvasArranger)).start()
                 return
@@ -272,7 +272,7 @@ class MainMenu(ttk.Frame):
                 createGreenLight(self.canvasOperator)
                 self.txtStatorAssy.focus()
             else:
-                Thread(correct(False)).start()
+                Thread(correct()).start()
                 Thread(message_box(['Format Not Correct !!! (ข้อมูลผิดพลาด)','กรุณาตรวจสอบความถูกต้อง'],value)).start()
                 Thread(focus_in(event,self.txtOperator,self.canvasOperator)).start()
                 return
@@ -304,7 +304,7 @@ class MainMenu(ttk.Frame):
                 createGreenLight(self.canvasStatorAssy)
                 self.txtSlot1.focus()
             else:
-                Thread(correct(False)).start()
+                Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
                 Thread(focus_in(event, self.txtStatorAssy,self.canvasStatorAssy)).start()
                 return
@@ -316,7 +316,7 @@ class MainMenu(ttk.Frame):
                 createGreenLight(self.canvasSlot1)
                 self.txtSlot2.focus()
             else:
-                Thread(correct(False)).start()
+                Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
                 Thread(focus_in(event, self.txtSlot1,self.canvasSlot1)).start()
                 return
@@ -327,7 +327,7 @@ class MainMenu(ttk.Frame):
                 createGreenLight(self.canvasSlot2)
                 self.txtStator.focus()
             else:
-                Thread(correct(False)).start()
+                Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
                 Thread(focus_in(event, self.txtSlot2,self.canvasSlot2)).start()
                 return
@@ -415,7 +415,7 @@ class MainMenu(ttk.Frame):
                 self.table_cb.focus()
 
             else:
-                Thread(correct(False)).start()
+                Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
                 focus_in(event, self.txtStator,self.canvasStator)
                 return
@@ -442,12 +442,20 @@ class MainMenu(ttk.Frame):
             for i in tree.get_children():
                 tree.delete(i)
 
-        def correct(t:bool):
-                try:
-                    playsound('Incorrect.mp3')
-                except:
-                    x = os.getcwd()
-                    playsound(x + '\Incorrect.mp3')
+        def correct():
+            x = os.getcwd()
+            # print(x)
+            try:
+                # playsound('Incorrect.mp3')
+                # playsound(x + '\\Incorrect.mp3')
+                mixer.init()
+                mixer.music.load("Incorrect.mp3")
+                mixer.music.set_volume(0.7)
+                mixer.music.play()
+            except Exception as e:
+                mixer.music.stop()
+                print(e)
+                # playsound(x + '\Incorrect.mp3')
 
         def message_box(wording :list, value):
             try:
