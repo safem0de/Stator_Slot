@@ -62,7 +62,7 @@ class MainMenu(ttk.Frame):
         self.table_cb.bind('<Return>', lambda event : onSelected_Table(event, self.selected_Table.get()))
         self.table_cb.bind('<Tab>', lambda event : onSelected_Table(event, self.selected_Table.get()))
         self.table_cb.bind("<Button-1>", lambda event: focus_in(event, self.table_cb,self.canvasTable))
-        self.table_cb['values'] = [f"Table {m}" for m in range(1, 20)]
+        self.table_cb['values'] = [f"Table{m}" for m in range(1, 21)]
         self.table_cb.grid(row=0, column=1, padx=3, pady=3, sticky=tk.NW)
 
         self.canvasTable = tk.Canvas(self.f0, width=self.w, height=self.w)
@@ -234,7 +234,7 @@ class MainMenu(ttk.Frame):
                 match = re.search(r'\d{1,}', value)
                 num = int(match.group())
 
-                if "Table " in value and isinstance(num, int):
+                if "Table" in value and isinstance(num, int):
                     createGreenLight(self.canvasTable)
                     self.txtArranger.focus()
                 else:
