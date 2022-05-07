@@ -1,6 +1,7 @@
 
 from datetime import datetime
-from tkinter import ttk
+from msilib.schema import Icon
+from tkinter import font, ttk
 from tkinter import *
 import tkinter as tk
 
@@ -36,14 +37,14 @@ class MainMenu(ttk.Frame):
             # log.info('Splash screen closed.')
 
         # https://stackoverflow.com/questions/51697858/python-how-do-i-add-a-theme-from-ttkthemes-package-to-a-guizero-application
-        self.style = ThemedStyle(self)
-        self.style.set_theme("aquativo")
+        # self.style = ThemedStyle(self)
+        # self.style.set_theme("aquativo")
 
         #create widgets
         self.labelheader = ttk.Label(self, text = 'Insert Slot Process', font=("Comic Sans MS", 20))
         self.labelheader.grid(row=0, column=0, sticky=tk.W)
 
-        self.lf = LabelFrame(self, text="Dashboard ",font=("Comic Sans MS", 16))
+        self.lf = LabelFrame(self, text="Dashboard ",font=("Comic Sans MS", 12))
         self.lf.grid(row=1, column=0, columnspan=20, sticky=tk.W)
 
         self.alignments = ('Set Up', 'Add Data', 'Output')
@@ -57,6 +58,9 @@ class MainMenu(ttk.Frame):
         self.nb.add(self.f0, text=self.alignments[0])
         self.nb.add(self.f1, text=self.alignments[1])
         self.nb.add(self.f2, text=self.alignments[2])
+
+        self.style = ttk.Style()
+        self.style.configure('TNotebook.Tab', font=("Comic Sans MS", 14))
 
         #### ==== Table ==== ####
 
@@ -223,6 +227,10 @@ class MainMenu(ttk.Frame):
         self.tree.configure(yscroll=self.scrollbar.set)
         self.scrollbar.grid(row=4, column=5, padx=3, pady=3, sticky=tk.W + tk.NS)
 
+        self.ClearBtn = ttk.Button(self.f0, text='ยืนยันการแก้ไข\nข้อผิดพลาด', command=lambda:unlock())
+        self.ClearBtn.config(state="disabled")
+        self.ClearBtn.grid(row=4, column=6, padx=3, pady=3, sticky=tk.S + tk.EW)
+
         def focus_in(event, Txt : ttk.Entry or ttk.Combobox, Canvas : tk.Canvas):
             
             if Txt.winfo_name() == 'sa':
@@ -326,6 +334,7 @@ class MainMenu(ttk.Frame):
                 Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
                 Thread(focus_in(event, self.txtSlot1,self.canvasSlot1)).start()
+                Thread(lockdown()).start()
                 return
 
         def onclick_slot2(event, value):
@@ -337,6 +346,7 @@ class MainMenu(ttk.Frame):
                 Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
                 Thread(focus_in(event, self.txtSlot2,self.canvasSlot2)).start()
+                Thread(lockdown()).start()
                 return
 
         def onclick_AddStator(event, value):
@@ -346,7 +356,7 @@ class MainMenu(ttk.Frame):
                 self.txtStator.delete(0,END)
                 self.txtStator.focus()
 
-            elif len(self.tree.get_children()) and (value == self.mdl.getNewSAP() or value == self.mdl.getStatorAssy()):
+            elif checkEmpty() and (value == self.mdl.getNewSAP() or value == self.mdl.getStatorAssy()):
                 # https://stackoverflow.com/questions/17977540/pandas-looking-up-the-list-of-sheets-in-an-excel-file
                 createGreenLight(self.canvasStator)
                 d = datetime.datetime.now()
@@ -424,7 +434,8 @@ class MainMenu(ttk.Frame):
             else:
                 Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
-                focus_in(event, self.txtStator,self.canvasStator)
+                Thread(focus_in(event, self.txtStator,self.canvasStator)).start()
+                Thread(lockdown()).start()
                 return
 
         def ClearAll():
@@ -450,19 +461,13 @@ class MainMenu(ttk.Frame):
                 tree.delete(i)
 
         def correct():
-            x = os.getcwd()
-            # print(x)
             try:
-                # playsound('Incorrect.mp3')
-                # playsound(x + '\\Incorrect.mp3')
                 mixer.init()
                 mixer.music.load("Incorrect.mp3")
-                mixer.music.set_volume(0.7)
+                mixer.music.set_volume(1.0)
                 mixer.music.play()
             except Exception as e:
                 mixer.music.stop()
-                print(e)
-                # playsound(x + '\Incorrect.mp3')
 
         def message_box(wording :list, value):
             try:
@@ -470,7 +475,62 @@ class MainMenu(ttk.Frame):
                     message=f'{wording[0]} {value}\n{wording[1]}')
             except:
                 messagebox.showinfo(title='Information', 
-                    message=f'เกิดข้อผิดพลาดกรุณาแจ้ง !!')
+                    message=f'เกิดข้อผิดพลาดกรุณาแจ้งหัวหน้างาน !!')
+
+        def lockdown():
+            self.txtSlot1.config(state="disabled")
+            self.txtSlot2.config(state="disabled")
+            self.txtStator.config(state="disabled")
+            self.ClearBtn.config(state="!disabled")
+
+        def unlock():
+            self.txtSlot1.config(state="!disabled")
+            self.txtSlot2.config(state="!disabled")
+            self.txtStator.config(state="!disabled")
+            self.ClearBtn.config(state="disabled")
+
+        def checkEmpty():
+            Alert : str = 'กรุณาตรวจสอบ\n'
+            Check : bool = True
+
+            if self.selected_Table.get() == "":
+                Alert += 'หมายเลขโต๊ะทำงาน\n'
+                Check = False
+
+            if self.Arranger.get() == "":
+                Alert += 'รหัสพนักงานของ(คนจัดงาน)\n'
+                Check = False
+
+            if self.Operator.get() == "":
+                Alert += 'รหัสพนักงานของ(คนรันงาน)\n'
+                Check = False
+
+            if self.statorAssy.get() == "":
+                Alert += 'Stator Assy Part No.\n'
+                Check = False
+
+            if self.slot1.get() == "":
+                Alert += 'Slot1 Part No.\n'
+                Check = False
+
+            if self.slot2.get() == "":
+                Alert += 'Slot2 Part No.\n'
+                Check = False
+
+            if len(self.tree.get_children()) <= 0:
+                Alert += 'จำนวน Tray ในการรันงาน\n'
+                Check = False
+
+            if Check == False:
+                messagebox.showinfo(
+                    title='กรุณาระบุข้อมูลให้ครบถ้วน',
+                    message = Alert,
+                    icon = 'error'
+                    )
+            
+            return Check
+            
+        
 
         ##################### ==== Add Data ==== ######################
         # For Add New Model Of Stator Assy from HB Division           #
