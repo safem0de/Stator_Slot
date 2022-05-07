@@ -18,6 +18,7 @@ import pandas as pd
 import re
 import datetime
 import os
+import importlib
 
 class MainMenu(ttk.Frame):
 
@@ -27,6 +28,12 @@ class MainMenu(ttk.Frame):
     
     def __init__(self, parent):
         super().__init__(parent)
+
+        if '_PYIBoot_SPLASH' in os.environ and importlib.util.find_spec("pyi_splash"):
+            import pyi_splash
+            pyi_splash.update_text('UI Loaded ...')
+            pyi_splash.close()
+            # log.info('Splash screen closed.')
 
         # https://stackoverflow.com/questions/51697858/python-how-do-i-add-a-theme-from-ttkthemes-package-to-a-guizero-application
         self.style = ThemedStyle(self)
@@ -62,7 +69,7 @@ class MainMenu(ttk.Frame):
         self.table_cb.bind('<Return>', lambda event : onSelected_Table(event, self.selected_Table.get()))
         self.table_cb.bind('<Tab>', lambda event : onSelected_Table(event, self.selected_Table.get()))
         self.table_cb.bind("<Button-1>", lambda event: focus_in(event, self.table_cb,self.canvasTable))
-        self.table_cb['values'] = [f"Table{m}" for m in range(1, 21)]
+        self.table_cb['values'] = [f"TABLE{m}" for m in range(1, 21)]
         self.table_cb.grid(row=0, column=1, padx=3, pady=3, sticky=tk.NW)
 
         self.canvasTable = tk.Canvas(self.f0, width=self.w, height=self.w)
@@ -234,7 +241,7 @@ class MainMenu(ttk.Frame):
                 match = re.search(r'\d{1,}', value)
                 num = int(match.group())
 
-                if "Table" in value and isinstance(num, int):
+                if "TABLE" in value and isinstance(num, int):
                     createGreenLight(self.canvasTable)
                     self.txtArranger.focus()
                 else:

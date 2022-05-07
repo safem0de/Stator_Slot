@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter.ttk import *
 
 from Views.MainMenu import *
-import os
 
 class App(tk.Tk):
     def __init__(self):
