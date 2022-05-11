@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 
-from ttkthemes import ThemedStyle
+# from ttkthemes import ThemedStyle
 from Controllers.statorAssyController import statorAssy
 from Models.StatorAssy import StatorAssyDetail
 
