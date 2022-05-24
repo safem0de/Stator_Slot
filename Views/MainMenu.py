@@ -531,7 +531,6 @@ class MainMenu(ttk.Frame):
             return Check
             
         
-
         ##################### ==== Add Data ==== ######################
         # For Add New Model Of Stator Assy from HB Division           #
         # into Database of this MechaII Program to correct components #
@@ -600,3 +599,12 @@ class MainMenu(ttk.Frame):
         self.Slot_2_SAP = tk.StringVar()
         self.txtSlot_2_SAP = ttk.Entry(self.f1, textvariable=self.Slot_2_SAP, font=("Comic Sans MS", 14))
         self.txtSlot_2_SAP.grid(row=3, column=3, padx=3, pady=3, sticky=tk.EW)
+
+        self.Btn_Add = ttk.Button(self.f1, text='เพิ่มข้อมูล (Add Data)', command = lambda:onClick_AddData())
+        self.Btn_Add.grid(row=4, column=3, padx=3, pady=3, sticky=tk.NE)
+
+
+        def onClick_AddData():
+            print('Ass Data')
+
+
