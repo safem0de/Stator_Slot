@@ -46,17 +46,21 @@ class MainMenu(ttk.Frame):
         self.lf = LabelFrame(self, text="Dashboard ",font=("Comic Sans MS", 12))
         self.lf.grid(row=1, column=0, columnspan=20, sticky=tk.W)
 
-        self.alignments = ('Set Up', 'Add Data', 'Output')
+        self.alignments = ('Set Up', 'Add Data', 'Edit Data', 'Slot Output', 'Credits')
         self.nb = ttk.Notebook(self.lf)
         self.nb.grid(column=0, row=0, ipadx=10, ipady=10)
 
         self.f0 = Frame(self.nb, width=1024, height=280, name=self.alignments[0].replace(" ","_").lower())
         self.f1 = Frame(self.nb, width=1024, height=280, name=self.alignments[1].replace(" ","_").lower())
         self.f2 = Frame(self.nb, width=1024, height=280, name=self.alignments[2].replace(" ","_").lower())
+        self.f3 = Frame(self.nb, width=1024, height=280, name=self.alignments[3].replace(" ","_").lower())
+        self.f4 = Frame(self.nb, width=1024, height=280, name=self.alignments[4].replace(" ","_").lower())
 
         self.nb.add(self.f0, text=self.alignments[0])
         self.nb.add(self.f1, text=self.alignments[1])
         self.nb.add(self.f2, text=self.alignments[2])
+        self.nb.add(self.f3, text=self.alignments[3])
+        self.nb.add(self.f4, text=self.alignments[4])
 
         self.style = ttk.Style()
         self.style.configure('TNotebook.Tab', font=("Comic Sans MS", 14))
@@ -232,7 +236,7 @@ class MainMenu(ttk.Frame):
 
         def focus_in(event, Txt : ttk.Entry or ttk.Combobox, Canvas : tk.Canvas):
             
-            if Txt.winfo_name() == 'sa':
+            if Txt.winfo_name() == 'sa': #ref(txtStatorAssy line:118)
                 MasterState()
 
             Txt.delete(0,END)
@@ -541,15 +545,27 @@ class MainMenu(ttk.Frame):
 
         self.Stator_Assy = tk.StringVar()
         self.txtStator_Assy = ttk.Entry(self.f1, textvariable=self.Stator_Assy, font=("Comic Sans MS", 14))
+        self.txtStator_Assy.bind('<Return>', lambda event : onKeyPress_Stator_Assy(event, self.Stator_Assy.get()))
+        self.txtStator_Assy.bind('<Tab>', lambda event : onKeyPress_Stator_Assy(event, self.Stator_Assy.get()))
+        self.txtStator_Assy.bind("<Button-1>", lambda event: focus_in_add_panel(event, self.txtStator_Assy,self.canvasStator_Assy))
         self.txtStator_Assy.grid(row=0, column=1, padx=3, pady=3, sticky=tk.EW)
+
+        self.canvasStator_Assy = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasStator_Assy.grid(row=0, column=2, sticky=tk.EW)
 
         #### ==== Stator Assy SAP ==== ####
         self.LblStator_Assy_SAP = ttk.Label(self.f1, text = 'Stator Assy SAP : ', font=("Comic Sans MS", 14))
-        self.LblStator_Assy_SAP.grid(row=0, column=2, padx=3, pady=3, sticky=tk.NE)
+        self.LblStator_Assy_SAP.grid(row=0, column=3, padx=3, pady=3, sticky=tk.NE)
 
         self.Stator_Assy_SAP = tk.StringVar()
         self.txtStator_Assy_SAP = ttk.Entry(self.f1, textvariable=self.Stator_Assy_SAP, font=("Comic Sans MS", 14))
-        self.txtStator_Assy_SAP.grid(row=0, column=3, padx=3, pady=3, sticky=tk.EW)
+        self.txtStator_Assy_SAP.bind('<Return>', lambda event : onKeyPress_SAP(event, self.Stator_Assy_SAP.get(), self.txtStator_Assy_SAP, self.canvasStator_Assy_SAP, self.txtStatorStack))
+        self.txtStator_Assy_SAP.bind('<Tab>', lambda event : onKeyPress_SAP(event, self.Stator_Assy_SAP.get(), self.txtStator_Assy_SAP, self.canvasStator_Assy_SAP, self.txtStatorStack))
+        self.txtStator_Assy_SAP.bind("<Button-1>", lambda event: focus_in_add_panel(event, self.txtStator_Assy_SAP, self.canvasStator_Assy_SAP))
+        self.txtStator_Assy_SAP.grid(row=0, column=4, padx=3, pady=3, sticky=tk.EW)
+
+        self.canvasStator_Assy_SAP = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasStator_Assy_SAP.grid(row=0, column=5, sticky=tk.EW)
 
         #### ==== StatorStack ==== ####
         self.LblStatorStack = ttk.Label(self.f1, text = 'Stator Stack : ', font=("Comic Sans MS", 14))
@@ -559,13 +575,19 @@ class MainMenu(ttk.Frame):
         self.txtStatorStack = ttk.Entry(self.f1, textvariable=self.StatorStack, font=("Comic Sans MS", 14))
         self.txtStatorStack.grid(row=1, column=1, padx=3, pady=3, sticky=tk.EW)
 
+        self.canvasStatorStack = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasStatorStack.grid(row=1, column=2, sticky=tk.EW)
+
         #### ==== StatorStack SAP ==== ####
-        self.LblStatorStack_SAP = ttk.Label(self.f1, text = 'StatorStack SAP : ', font=("Comic Sans MS", 14))
-        self.LblStatorStack_SAP.grid(row=1, column=2, padx=3, pady=3, sticky=tk.NE)
+        self.LblStatorStack_SAP = ttk.Label(self.f1, text = 'Stator Stack SAP : ', font=("Comic Sans MS", 14))
+        self.LblStatorStack_SAP.grid(row=1, column=3, padx=3, pady=3, sticky=tk.NE)
 
         self.StatorStack_SAP = tk.StringVar()
         self.txtStatorStack_SAP = ttk.Entry(self.f1, textvariable=self.StatorStack_SAP, font=("Comic Sans MS", 14))
-        self.txtStatorStack_SAP.grid(row=1, column=3, padx=3, pady=3, sticky=tk.EW)
+        self.txtStatorStack_SAP.grid(row=1, column=4, padx=3, pady=3, sticky=tk.EW)
+
+        self.canvasStatorStack_SAP = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasStatorStack_SAP.grid(row=1, column=5, sticky=tk.EW)
 
         #### ==== Slot_1 ==== ####
         self.LblSlot_1 = ttk.Label(self.f1, text = 'Slot 1 : ', font=("Comic Sans MS", 14))
@@ -575,13 +597,19 @@ class MainMenu(ttk.Frame):
         self.txtSlot_1 = ttk.Entry(self.f1, textvariable=self.Slot_1, font=("Comic Sans MS", 14))
         self.txtSlot_1.grid(row=2, column=1, padx=3, pady=3, sticky=tk.EW)
 
+        self.canvasSlot_1 = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasSlot_1.grid(row=2, column=2, sticky=tk.EW)
+
         #### ==== Slot_1 SAP ==== ####
         self.LblSlot_1_SAP = ttk.Label(self.f1, text = 'Slot 1 SAP : ', font=("Comic Sans MS", 14))
-        self.LblSlot_1_SAP.grid(row=2, column=2, padx=3, pady=3, sticky=tk.NE)
+        self.LblSlot_1_SAP.grid(row=2, column=3, padx=3, pady=3, sticky=tk.NE)
 
         self.Slot_1_SAP = tk.StringVar()
         self.txtSlot_1_SAP = ttk.Entry(self.f1, textvariable=self.Slot_1_SAP, font=("Comic Sans MS", 14))
-        self.txtSlot_1_SAP.grid(row=2, column=3, padx=3, pady=3, sticky=tk.EW)
+        self.txtSlot_1_SAP.grid(row=2, column=4, padx=3, pady=3, sticky=tk.EW)
+
+        self.canvasSlot_1_SAP = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasSlot_1_SAP.grid(row=2, column=5, sticky=tk.EW)
 
         #### ==== Slot_2 ==== ####
         self.LblSlot_2 = ttk.Label(self.f1, text = 'Slot 2 : ', font=("Comic Sans MS", 14))
@@ -591,48 +619,79 @@ class MainMenu(ttk.Frame):
         self.txtSlot_2 = ttk.Entry(self.f1, textvariable=self.Slot_2, font=("Comic Sans MS", 14))
         self.txtSlot_2.grid(row=3, column=1, padx=3, pady=3, sticky=tk.EW)
 
+        self.canvasSlot_2 = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasSlot_2.grid(row=3, column=2, sticky=tk.EW)
+
         #### ==== Slot_2 SAP ==== ####
         self.LblSlot_2_SAP = ttk.Label(self.f1, text = 'Slot 2 SAP : ', font=("Comic Sans MS", 14))
-        self.LblSlot_2_SAP.grid(row=3, column=2, padx=3, pady=3, sticky=tk.NE)
+        self.LblSlot_2_SAP.grid(row=3, column=3, padx=3, pady=3, sticky=tk.NE)
 
         self.Slot_2_SAP = tk.StringVar()
         self.txtSlot_2_SAP = ttk.Entry(self.f1, textvariable=self.Slot_2_SAP, font=("Comic Sans MS", 14))
-        self.txtSlot_2_SAP.grid(row=3, column=3, padx=3, pady=3, sticky=tk.EW)
+        self.txtSlot_2_SAP.grid(row=3, column=4, padx=3, pady=3, sticky=tk.EW)
+
+        self.canvasSlot_2_SAP = tk.Canvas(self.f1, width=self.w, height=self.w)
+        self.canvasSlot_2_SAP.grid(row=3, column=5, sticky=tk.EW)
 
         self.Btn_Add = ttk.Button(self.f1, text='เพิ่มข้อมูล (Add Data)', command = lambda:onClick_AddData())
-        self.Btn_Add.grid(row=4, column=3, padx=3, pady=3, sticky=tk.NE)
+        self.Btn_Add.grid(row=4, column=4, padx=3, pady=3, sticky=tk.NE)
 
-        def focus_in(event, Txt : ttk.Entry ):
-            
-            if Txt.winfo_name() == 'sa':
-                MasterState()
-
+        def focus_in_add_panel(event, Txt : ttk.Entry, Canvas : tk.Canvas):
             Txt.delete(0,END)
+            Canvas.delete('all')
             Txt.focus()
+
+        def onKeyPress_Stator_Assy(event, value):\
+            # https://www.programiz.com/python-programming/regex
+            
+            x = re.match("^16..-", value)
+
+            if len(value) > 5 and x:
+                createGreenLight(self.canvasStator_Assy)
+                self.txtStator_Assy_SAP.focus()
+            else:
+                Thread(correct()).start()
+                Thread(message_box(['Format Not Correct !!! (ข้อมูลผิดพลาด)','กรุณาตรวจสอบความถูกต้อง'],value)).start()
+                Thread(focus_in_add_panel(event,self.txtStator_Assy,self.canvasStator_Assy)).start()
+                return
+
+        def onKeyPress_SAP(event, value , tx: ttk.Entry ,cnv : tk.Canvas, tx_next : ttk.Entry):
+            
+            x = re.match("^1[0-9]{10}", value)
+
+            if x:
+                createGreenLight(cnv)
+                tx_next.focus()
+            else:
+                Thread(correct()).start()
+                Thread(message_box(['Format Not Correct !!! (ข้อมูลผิดพลาด)','กรุณาตรวจสอบความถูกต้อง'],value)).start()
+                Thread(focus_in_add_panel(event, tx, cnv)).start()
+                return
 
         def checkCondition():
             pass
 
 
         def onClick_AddData():
-            addmdl = StatorAssyDetail()
-            addmdl.setStatorAssy(self.Stator_Assy.get())
-            addmdl.setNewSAP(self.Stator_Assy_SAP.get())
-            addmdl.setStackNo(self.StatorStack.get())
-            addmdl.setStackSAP(self.StatorStack_SAP.get())
-            addmdl.setSlot_1(self.Slot_1.get())
-            addmdl.setSlot_1_SAP(self.Slot_1_SAP.get())
-            addmdl.setSlot_2(self.Slot_2.get())
-            addmdl.setSlot_2_SAP(self.Slot_2_SAP.get())
+            focus_in_add_panel(self.txtSlot_2)
+            # addmdl = StatorAssyDetail()
+            # addmdl.setStatorAssy(self.Stator_Assy.get())
+            # addmdl.setNewSAP(self.Stator_Assy_SAP.get())
+            # addmdl.setStackNo(self.StatorStack.get())
+            # addmdl.setStackSAP(self.StatorStack_SAP.get())
+            # addmdl.setSlot_1(self.Slot_1.get())
+            # addmdl.setSlot_1_SAP(self.Slot_1_SAP.get())
+            # addmdl.setSlot_2(self.Slot_2.get())
+            # addmdl.setSlot_2_SAP(self.Slot_2_SAP.get())
 
-            self.ctrl.insertVaribleIntoTable(
-                addmdl.getNewSAP(),
-                addmdl.getStatorAssy(),
-                addmdl.getStackNo(),
-                addmdl.getStackSAP(),
-                addmdl.getSlot_1(),
-                addmdl.getSlot_1_SAP(),
-                addmdl.getSlot_2(),
-                addmdl.getSlot_2_SAP()
-            )
+            # self.ctrl.insertVaribleIntoTable(
+            #     addmdl.getNewSAP(),
+            #     addmdl.getStatorAssy(),
+            #     addmdl.getStackNo(),
+            #     addmdl.getStackSAP(),
+            #     addmdl.getSlot_1(),
+            #     addmdl.getSlot_1_SAP(),
+            #     addmdl.getSlot_2(),
+            #     addmdl.getSlot_2_SAP()
+            # )
 
