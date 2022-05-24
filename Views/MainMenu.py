@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from msilib.schema import Icon
 from tkinter import font, ttk
@@ -603,8 +602,37 @@ class MainMenu(ttk.Frame):
         self.Btn_Add = ttk.Button(self.f1, text='เพิ่มข้อมูล (Add Data)', command = lambda:onClick_AddData())
         self.Btn_Add.grid(row=4, column=3, padx=3, pady=3, sticky=tk.NE)
 
+        def focus_in(event, Txt : ttk.Entry ):
+            
+            if Txt.winfo_name() == 'sa':
+                MasterState()
+
+            Txt.delete(0,END)
+            Txt.focus()
+
+        def checkCondition():
+            pass
+
 
         def onClick_AddData():
-            print('Ass Data')
+            addmdl = StatorAssyDetail()
+            addmdl.setStatorAssy(self.Stator_Assy.get())
+            addmdl.setNewSAP(self.Stator_Assy_SAP.get())
+            addmdl.setStackNo(self.StatorStack.get())
+            addmdl.setStackSAP(self.StatorStack_SAP.get())
+            addmdl.setSlot_1(self.Slot_1.get())
+            addmdl.setSlot_1_SAP(self.Slot_1_SAP.get())
+            addmdl.setSlot_2(self.Slot_2.get())
+            addmdl.setSlot_2_SAP(self.Slot_2_SAP.get())
 
+            self.ctrl.insertVaribleIntoTable(
+                addmdl.getNewSAP(),
+                addmdl.getStatorAssy(),
+                addmdl.getStackNo(),
+                addmdl.getStackSAP(),
+                addmdl.getSlot_1(),
+                addmdl.getSlot_1_SAP(),
+                addmdl.getSlot_2(),
+                addmdl.getSlot_2_SAP()
+            )
 
