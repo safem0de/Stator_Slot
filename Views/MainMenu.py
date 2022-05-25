@@ -70,10 +70,12 @@ class MainMenu(ttk.Frame):
         # infomation of project maker                                #
         ############################################################## 
 
-        self.f = open("credits.txt", encoding="utf8")
-        # print(self.f.read())
-        self.lblCredits = ttk.Label(self.f4, text=self.f.read())
-        self.lblCredits.grid(row=0, column=0, padx=3, pady=3, sticky=tk.NE)
+        try:
+            self.f = open("credits.txt", encoding="utf8")
+            self.lblCredits = ttk.Label(self.f4, text=self.f.read())
+            self.lblCredits.grid(row=0, column=0, padx=3, pady=3, sticky=tk.NE)
+        except:
+            pass
 
         #### ==== Table ==== ####
 
