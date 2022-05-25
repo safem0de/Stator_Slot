@@ -1,4 +1,4 @@
-('D:\\PythonProject\\Stator_Slot\\Splash V0.1.jpg',
+('D:\\PythonProject\\Stator_Slot\\Splash V0.2.jpg',
  'D:\\PythonProject\\Stator_Slot\\build\\App\\Splash-00.res',
  'D:\\PythonProject\\Stator_Slot\\build\\App\\Splash-00_script.tcl',
  None,
