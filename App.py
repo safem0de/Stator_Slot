@@ -11,6 +11,7 @@ class App(tk.Tk):
         # self.title('Insert Slot Checking by Safem0de V 0.1.0')
         # self.title('Insert Slot Checking by Safem0de V 0.2.0') ## 25/05/2022
         self.title('Insert Slot Checking by Safem0de V 0.2.1') ## 30/05/2022
+        
         self.geometry('+10+10')
 
         # create a view and place it on the root window

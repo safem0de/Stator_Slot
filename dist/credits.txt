@@ -6,15 +6,22 @@
 ██████╔╝██║░░██║██║░░░░░███████╗██║░╚═╝░██║╚█████╔╝██████╔╝███████╗
 ╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚══════╝╚═╝░░░░░╚═╝░╚════╝░╚═════╝░╚══════╝
 
-Version 0.1 >> Start Launch Stator Slot
+Version 0.1 >> Start Launch Stator Slot (23/04/2022)
 - Check Stator, Slots, StatorAssy and Tray quantity.
 - Keep record in Excel file seperate month.
 - Alarm voice.
 - Pokayoke missing input stator model.
 
-Version 0.2 >> Add Data Function Launch
+Version 0.2 >> Add Data function Launch (25/05/2022)
 - Add data into database slot.
 - Validation roughly details before input data.
 
-    Version 0.2.1 >> Add fucking quantity checking (useless).
+    Version 0.2.1 >> Add fucking quantity checking (useless)(30/05/2022).
     ** because Stator barcode 1D doesn't have tray no. and quantity (Need QR-Code 2D).
+
+Version 0.3 >> Edit Data function Launch (...)
+Version 0.4 >> Output Record Data function Launch (...)
+Version 0.5 >> Show Output Data function Launch (...)
+Version 0.6 >> Line/E-mail report function Launch (...)
+
+Version 0.7 >> Review Code (...)

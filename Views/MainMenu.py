@@ -1,5 +1,5 @@
 from datetime import datetime
-from msilib.schema import Icon
+from msilib.schema import Error, Icon
 from tkinter import font, ttk
 from tkinter import *
 import tkinter as tk
@@ -859,6 +859,13 @@ class MainMenu(ttk.Frame):
                 )
                 messagebox.showinfo(title='Information', message=f'New Data {self.Stator_Assy.get()} was Added')
             else:
+                # "Need to Return fucking Error Message >> on V0.3"
                 pass
 
             ClearAll_AddData()
+
+
+        ################################## ==== Edit Data ==== #############################
+        # For Edit New Model Of Stator Assy from HB Division revision updated using SAP No.#
+        # into Database of this MechaII Program to correct components                      #
+        ####################################################################################
