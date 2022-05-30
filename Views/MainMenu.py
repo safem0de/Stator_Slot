@@ -143,7 +143,7 @@ class MainMenu(ttk.Frame):
         #### ==== Master ==== ####
         def MasterState():
             self.lf_master = LabelFrame(self.f0, text="Master",font=("Comic Sans MS", 14))
-            self.lf_master.grid(row=4, column=0, columnspan=2, sticky=tk.N+tk.EW)
+            self.lf_master.grid(row=5, column=0, columnspan=2, sticky=tk.N+tk.EW)
 
             self.LblStator_master = ttk.Label(self.lf_master, text = 'Stator :\t', font=("Comic Sans MS", 14))
             self.LblStator_master.grid(row=0, column=0, padx=3, pady=3, sticky=tk.NW)
@@ -195,20 +195,35 @@ class MainMenu(ttk.Frame):
         self.canvasSlot2 = tk.Canvas(self.f0, width=self.w, height=self.w)
         self.canvasSlot2.grid(row=2, column=5, sticky=tk.EW)
 
+        #### ==== Qty ==== ####
+
+        self.LblQty = ttk.Label(self.f0, text = "Q'ty : ", font=("Comic Sans MS", 14))
+        self.LblQty.grid(row=3, column=3, padx=3, pady=3, sticky=tk.NE)
+
+        self.Qty = tk.StringVar()
+        self.txtQty = ttk.Entry(self.f0, textvariable=self.Qty, font=("Comic Sans MS", 14))
+        self.txtQty.bind("<Return>", lambda event: onclick_Qty(event,self.Qty.get()))
+        self.txtQty.bind("<Tab>", lambda event: onclick_Qty(event,self.Qty.get()))
+        self.txtQty.bind("<Button-1>", lambda event: focus_in(event,self.txtQty,self.canvasQty))
+        self.txtQty.grid(row=3, column=4, padx=3, pady=3, sticky=tk.W)
+
+        self.canvasQty = tk.Canvas(self.f0, width=self.w, height=self.w)
+        self.canvasQty.grid(row=3, column=5, sticky=tk.EW)
+
         #### ==== Stator Check ==== ####
 
         self.LblStator = ttk.Label(self.f0, text = 'Stator : ', font=("Comic Sans MS", 14))
-        self.LblStator.grid(row=3, column=3, padx=3, pady=3, sticky=tk.NE)
+        self.LblStator.grid(row=4, column=3, padx=3, pady=3, sticky=tk.NE)
 
         self.stator = tk.StringVar()
         self.txtStator = ttk.Entry(self.f0, textvariable=self.stator, font=("Comic Sans MS", 14))
         self.txtStator.bind("<Return>", lambda event: onclick_AddStator(event,self.stator.get()))
         self.txtStator.bind("<Tab>", lambda event: onclick_AddStator(event,self.stator.get()))
         self.txtStator.bind("<Button-1>", lambda event: focus_in(event,self.txtStator,self.canvasStator))
-        self.txtStator.grid(row=3, column=4, padx=3, pady=3, sticky=tk.EW)
+        self.txtStator.grid(row=4, column=4, padx=3, pady=3, sticky=tk.EW)
 
         self.canvasStator = tk.Canvas(self.f0, width=self.w, height=self.w)
-        self.canvasStator.grid(row=3, column=5, sticky=tk.EW)
+        self.canvasStator.grid(row=4, column=5, sticky=tk.EW)
 
         columns = ('Tray No.', 'Stator Stack')
         self.tree = ttk.Treeview(self.f0, columns=columns, show='headings')
@@ -235,16 +250,16 @@ class MainMenu(ttk.Frame):
 
         self.tree.bind('<<TreeviewSelect>>', item_selected)
 
-        self.tree.grid(row=4, column=4, padx=3, pady=3, sticky=tk.NSEW)
+        self.tree.grid(row=5, column=4, padx=3, pady=3, sticky=tk.NSEW)
 
         ## add a scrollbar
         self.scrollbar = ttk.Scrollbar(self.f0, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscroll=self.scrollbar.set)
-        self.scrollbar.grid(row=4, column=5, padx=3, pady=3, sticky=tk.W + tk.NS)
+        self.scrollbar.grid(row=5, column=5, padx=3, pady=3, sticky=tk.W + tk.NS)
 
         self.ClearBtn = ttk.Button(self.f0, text='ยืนยันการแก้ไข\nข้อผิดพลาด', command=lambda:unlock())
         self.ClearBtn.config(state="disabled")
-        self.ClearBtn.grid(row=4, column=6, padx=3, pady=3, sticky=tk.S + tk.EW)
+        self.ClearBtn.grid(row=5, column=6, padx=3, pady=3, sticky=tk.S + tk.EW)
 
         def focus_in(event, Txt : ttk.Entry or ttk.Combobox, Canvas : tk.Canvas):
             
@@ -356,7 +371,7 @@ class MainMenu(ttk.Frame):
             
             if value == self.mdl.getSlot_2_SAP() or value == self.mdl.getSlot_2():
                 createGreenLight(self.canvasSlot2)
-                self.txtStator.focus()
+                self.txtQty.focus()
             else:
                 Thread(correct()).start()
                 Thread(message_box(['Not Found!!! (ไม่พบข้อมูล)','กรุณาตรวจสอบ หรือ อาจเป็น Model.ใหม่?'],value)).start()
@@ -364,9 +379,24 @@ class MainMenu(ttk.Frame):
                 Thread(lockdown()).start()
                 return
 
+        def onclick_Qty(event, value : str ):
+            
+            if value.isnumeric() and int(value) > 0 :
+                createGreenLight(self.canvasQty)
+                self.txtStator.focus()
+            else:
+                Thread(correct()).start()
+                Thread(message_box(['Missing Data (ข้อมูลผิดพลาด)','กรุณาตรวจสอบจำนวนอีกครั้ง'],value)).start()
+                Thread(focus_in(event, self.txtQty,self.canvasQty)).start()
+                Thread(lockdown()).start()
+                return
+
         def onclick_AddStator(event, value):
 
-            if value == self.mdl.getStackSAP() or value == self.mdl.getStackNo():
+            # print(len(self.tree.get_children()))
+            # print(int(self.Qty.get()))
+
+            if (value == self.mdl.getStackSAP() or value == self.mdl.getStackNo()) and len(self.tree.get_children()) <= int(self.Qty.get())-1:
                 self.tree.insert('', tk.END, values=(len(self.tree.get_children())+1, value))
                 self.txtStator.delete(0,END)
                 self.txtStator.focus()
@@ -461,6 +491,8 @@ class MainMenu(ttk.Frame):
             self.txtSlot1.delete(0,END)
             self.txtSlot2.delete(0,END)
             self.txtStator.delete(0,END)
+            self.txtQty.delete(0,END)
+
             self.canvasTable.delete('all')
             self.canvasArranger.delete('all')
             self.canvasOperator.delete('all')
@@ -468,6 +500,8 @@ class MainMenu(ttk.Frame):
             self.canvasSlot1.delete('all')
             self.canvasSlot2.delete('all')
             self.canvasStator.delete('all')
+            self.canvasQty.delete('all')
+
             MasterState()
             clearTreeview(self.tree)
 
@@ -495,12 +529,14 @@ class MainMenu(ttk.Frame):
         def lockdown():
             self.txtSlot1.config(state="disabled")
             self.txtSlot2.config(state="disabled")
+            self.txtQty.config(state="disabled")
             self.txtStator.config(state="disabled")
             self.ClearBtn.config(state="!disabled")
 
         def unlock():
             self.txtSlot1.config(state="!disabled")
             self.txtSlot2.config(state="!disabled")
+            self.txtQty.config(state="!disabled")
             self.txtStator.config(state="!disabled")
             self.ClearBtn.config(state="disabled")
 
@@ -775,6 +811,7 @@ class MainMenu(ttk.Frame):
             self.txtSlot_1_SAP.delete(0,END)
             self.txtSlot_2.delete(0,END)
             self.txtSlot_2_SAP.delete(0,END)
+
             self.canvasStator_Assy.delete('all')
             self.canvasStator_Assy_SAP.delete('all')
             self.canvasStatorStack.delete('all')

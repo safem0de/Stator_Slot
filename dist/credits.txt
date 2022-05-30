@@ -15,3 +15,6 @@ Version 0.1 >> Start Launch Stator Slot
 Version 0.2 >> Add Data Function Launch
 - Add data into database slot.
 - Validation roughly details before input data.
+
+    Version 0.2.1 >> Add fucking quantity checking (useless).
+    ** because Stator barcode 1D doesn't have tray no. and quantity (Need QR-Code 2D).
