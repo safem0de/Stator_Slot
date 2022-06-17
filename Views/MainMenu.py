@@ -30,7 +30,7 @@ class MainMenu(ttk.Frame):
         super().__init__(parent)
 
         if '_PYIBoot_SPLASH' in os.environ and importlib.util.find_spec("pyi_splash"):
-            import pyi_splash
+            import PyInstaller as pyi_splash
             pyi_splash.update_text('UI Loaded ...')
             pyi_splash.close()
             # log.info('Splash screen closed.')
@@ -823,3 +823,48 @@ class MainMenu(ttk.Frame):
                 pass
 
             ClearAll_AddData()
+
+        ##################### ==== Edit Data ==== #####################
+        # For Edit Details and update following HB                    #
+        # into Database of this MechaII Program to correct components #
+        ############################################################### 
+
+        self.LbFEditStator_AddSAP = LabelFrame(self.f2, text='Stator Assy update SAP No.')
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
+        self.LbFEditStator_AddSAP.grid(row=0, column=0, padx=2, pady=2, sticky=tk.NSEW)
+
+        self.LblStator_ASearch = Label(self.LbFEditStator_AddSAP, text='Stator Assy No.', font=("Comic Sans MS", 14))
+        self.LblStator_ASearch.grid(row=0, column=0, padx=2, pady=2, sticky=tk.NW)
+
+        self.Stator_ASearch = tk.StringVar()
+        self.txtStator_ASearch = ttk.Entry(self.LbFEditStator_AddSAP, textvariable=self.Stator_ASearch, font=("Comic Sans MS", 14))
+        self.txtStator_ASearch.bind('<Return>', lambda event : print('test'))
+        self.txtStator_ASearch.bind('<Tab>', lambda event : print('test'))
+        self.txtStator_ASearch.bind("<Button-1>", lambda event: print('test'))
+        self.txtStator_ASearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
+
+        self.Btn_StatorA_Change = Button(self.LbFEditStator_AddSAP, text='Change SAP No.')
+        self.Btn_StatorA_Change.grid(row=0, column=2, padx=2, pady=2, sticky=tk.NSEW)
+
+        self.LblStator_A_SAP_Find = Label(self.LbFEditStator_AddSAP, text='SAP No. of Stator Assy', font=("Comic Sans MS", 14))
+        self.LblStator_A_SAP_Find.grid(row=0, column=3, padx=2, pady=2, sticky=tk.NW)
+        self.LblStator_A_SAP_Find['state'] = 'disabled'
+
+        self.Stator_A_SAP_Find = tk.StringVar()
+        self.txtStator_A_SAP_Find = ttk.Entry(self.LbFEditStator_AddSAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
+        self.txtStator_A_SAP_Find.bind('<Return>', lambda event : print('test'))
+        self.txtStator_A_SAP_Find.bind('<Tab>', lambda event : print('test'))
+        self.txtStator_A_SAP_Find.bind("<Button-1>", lambda event: print('test'))
+        self.txtStator_A_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
+        self.txtStator_A_SAP_Find['state'] = 'disabled'
+
+        self.Btn_StatorA_Confirm = Button(self.LbFEditStator_AddSAP, text='Confirm SAP No.')
+        self.Btn_StatorA_Confirm.grid(row=0, column=5, padx=2, pady=2, sticky=tk.NSEW)
+        self.Btn_StatorA_Confirm['state'] = 'disabled'
+
+
+
+
+
+
