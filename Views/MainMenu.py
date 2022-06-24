@@ -856,13 +856,13 @@ class MainMenu(ttk.Frame):
 
         self.Stator_A_SAP_Find = tk.StringVar()
         self.txtStator_A_SAP_Find = ttk.Entry(self.LbFEditStator_AaddSAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
-        self.txtStator_A_SAP_Find.bind('<Return>', lambda event : print('test'))
-        self.txtStator_A_SAP_Find.bind('<Tab>', lambda event : print('test'))
+        # self.txtStator_A_SAP_Find.bind('<Return>', lambda event : print('test'))
+        # self.txtStator_A_SAP_Find.bind('<Tab>', lambda event : print('test'))
         self.txtStator_A_SAP_Find.bind("<Button-1>", lambda event: print('test'))
         self.txtStator_A_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
         self.txtStator_A_SAP_Find['state'] = 'disabled'
 
-        self.Btn_StatorA_Confirm = Button(self.LbFEditStator_AaddSAP, text='Confirm SAP No.')
+        self.Btn_StatorA_Confirm = Button(self.LbFEditStator_AaddSAP, text='Confirm SAP No.', command=lambda:onClick_Change_Stator_A(self.Stator_ASearch, self.Stator_A_SAP_Find))
         self.Btn_StatorA_Confirm.grid(row=0, column=5, padx=2, pady=2, sticky=tk.NSEW)
         self.Btn_StatorA_Confirm['state'] = 'disabled'
 
@@ -891,9 +891,9 @@ class MainMenu(ttk.Frame):
         self.LblInsulator_SAP_Find['state'] = 'disabled'
 
         self.Insulator_SAP_Find = tk.StringVar()
-        self.TxtInsulator_SAP_Find = ttk.Entry(self.LbFEditInsulatorSAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
-        self.TxtInsulator_SAP_Find.bind('<Return>', lambda event : print('test'))
-        self.TxtInsulator_SAP_Find.bind('<Tab>', lambda event : print('test'))
+        self.TxtInsulator_SAP_Find = ttk.Entry(self.LbFEditInsulatorSAP, textvariable=self.Insulator_SAP_Find, font=("Comic Sans MS", 14))
+        # self.TxtInsulator_SAP_Find.bind('<Return>', lambda event : print('test'))
+        # self.TxtInsulator_SAP_Find.bind('<Tab>', lambda event : print('test'))
         self.TxtInsulator_SAP_Find.bind("<Button-1>", lambda event: print('test'))
         self.TxtInsulator_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
         self.TxtInsulator_SAP_Find['state'] = 'disabled'
@@ -902,14 +902,13 @@ class MainMenu(ttk.Frame):
         self.Btn_Insulator_Confirm.grid(row=0, column=5, padx=2, pady=2, sticky=tk.NSEW)
         self.Btn_Insulator_Confirm['state'] = 'disabled'
 
-
         ####################################################################################################
 
         self.LbFEditStatorChg_SAP = LabelFrame(self.f2, text='Stator update SAP No.')
         self.LbFEditStatorChg_SAP.grid(row=2, column=0, padx=2, pady=2, sticky=tk.NSEW)
 
         self.LblStatorSearch = Label(self.LbFEditStatorChg_SAP, text='Stator No.', font=("Comic Sans MS", 14))
-        self.LblStatorSearch.grid(row=0, column=0, padx=2, pady=2, sticky=tk.NW)
+        self.LblStatorSearch.grid(row=0, column=0, padx=2, pady=2, sticky=tk.NSEW)
 
         self.StatorSearch = tk.StringVar()
         self.TxtStatorSearch = ttk.Entry(self.LbFEditStatorChg_SAP, textvariable=self.StatorSearch, font=("Comic Sans MS", 14))
@@ -919,7 +918,7 @@ class MainMenu(ttk.Frame):
             lambda event : Update_Click(event, ['StackNo'], self.StatorSearch.get(), [self.LblStator_SAP_Find, self.TxtStator_SAP_Find, self.Btn_Stator_Confirm]))
         self.TxtStatorSearch.bind("<Button-1>",
             lambda event : focus_in_add_panel_edit(event, self.TxtStatorSearch, [self.LblStator_SAP_Find, self.TxtStator_SAP_Find, self.Btn_Stator_Confirm]))
-        self.TxtStatorSearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
+        self.TxtStatorSearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NSEW)
 
         ############## --------------- SQL --------------- ##############
 
@@ -928,9 +927,9 @@ class MainMenu(ttk.Frame):
         self.LblStator_SAP_Find['state'] = 'disabled'
 
         self.Stator_SAP_Find = tk.StringVar()
-        self.TxtStator_SAP_Find = ttk.Entry(self.LbFEditStatorChg_SAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
-        self.TxtStator_SAP_Find.bind('<Return>', lambda event : print('test'))
-        self.TxtStator_SAP_Find.bind('<Tab>', lambda event : print('test'))
+        self.TxtStator_SAP_Find = ttk.Entry(self.LbFEditStatorChg_SAP, textvariable=self.Stator_SAP_Find, font=("Comic Sans MS", 14))
+        # self.TxtStator_SAP_Find.bind('<Return>', lambda event : print('test'))
+        # self.TxtStator_SAP_Find.bind('<Tab>', lambda event : print('test'))
         self.TxtStator_SAP_Find.bind("<Button-1>", lambda event: print('test'))
         self.TxtStator_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
         self.TxtStator_SAP_Find['state'] = 'disabled'
@@ -939,8 +938,9 @@ class MainMenu(ttk.Frame):
         self.Btn_Stator_Confirm.grid(row=0, column=5, padx=2, pady=2, sticky=tk.NSEW)
         self.Btn_Stator_Confirm['state'] = 'disabled'
 
-        def Update_Click(event, find_col, find, element:list):
+        def Update_Click(event, find_col:list, find, element:list):
             x = self.ctrl.select_count(find_col, find)
+            messagebox.showinfo('Search', f'{find} found {x} items')
             if x > 0:
                 for i in element:
                     i.configure(state='active')
@@ -956,3 +956,23 @@ class MainMenu(ttk.Frame):
                     i.configure(state='disabled')
             except:
                 pass
+
+        def onClick_Change_Stator_A(partno:tk.StringVar, find:tk.StringVar):
+            #Check Duplicate SAP
+            x = self.ctrl.select_count(['New_SAP', 'StackSAP', 'Slot_1_SAP', 'Slot_2_SAP'], find.get())
+            if x > 0:
+                messagebox.showinfo('Error', f'Duplicate {find.get()} found {x} items')
+                find.set('')
+            else:
+                y = re.match("^1[0-9]{10}", find.get())
+                if y:
+                    self.ctrl.updateVaribleIntoTable(Column='New_Sap' ,Sap=find.get(), ColumnCondition='Statorassy', PartNo=partno.get())
+                    pass
+                else:
+                    messagebox.showinfo('Error', f'Please check {find.get()} not match SAP format')
+
+        def onClick_Change_Insulator():
+            pass
+
+        def onClick_Change_Stator():
+            pass

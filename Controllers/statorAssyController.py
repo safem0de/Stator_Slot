@@ -67,17 +67,18 @@ class statorAssy:
                 self.__connection.close()
                 print("The SQLite connection is closed")
 
-    def updateVaribleIntoTable(self, PartNo, Sap):
+    def updateVaribleIntoTable(self, Column, Sap, ColumnCondition, PartNo):
         try:
             cursor = self.__connection.cursor()
             print("Connected to SQLite")
 
-            sqlite_insert_with_param = """UPDATE Stator_Slot
-                            SET ? 
-                            WHERE ?;"""
+            __sqlite_update = """UPDATE Stator_Slot
+                SET """+ Column +""" = '"""+ Sap +"""'
+                WHERE """+ ColumnCondition +""" = '"""+ PartNo +"""';"""
 
-            data_tuple = (PartNo, Sap)
-            cursor.execute(sqlite_insert_with_param, data_tuple)
+            # data_tuple = (Column, Sap, ColumnCondition, PartNo)
+            print(__sqlite_update)
+            cursor.execute(__sqlite_update)
             self.__connection.commit()
             # print("Python Variables Update successfully into SqliteDb_developers table")
 
