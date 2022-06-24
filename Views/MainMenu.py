@@ -963,16 +963,27 @@ class MainMenu(ttk.Frame):
             if x > 0:
                 messagebox.showinfo('Error', f'Duplicate {find.get()} found {x} items')
                 find.set('')
+                return
             else:
                 y = re.match("^1[0-9]{10}", find.get())
                 if y:
                     self.ctrl.updateVaribleIntoTable(Column='New_Sap' ,Sap=find.get(), ColumnCondition='Statorassy', PartNo=partno.get())
-                    pass
                 else:
                     messagebox.showinfo('Error', f'Please check {find.get()} not match SAP format')
 
-        def onClick_Change_Insulator():
-            pass
+        def onClick_Change_Insulator(partno:tk.StringVar, find:tk.StringVar):
+            x = self.ctrl.select_count(['New_SAP', 'StackSAP', 'Slot_1_SAP', 'Slot_2_SAP'], find.get())
+            if x > 0:
+                messagebox.showinfo('Error', f'Duplicate {find.get()} found {x} items')
+                find.set('')
+                return
+            else:
+                y = re.match("^1[0-9]{10}", find.get())
+                if y:
+                    self.ctrl.updateVaribleIntoTable(Column='Slot_1' ,Sap=find.get(), ColumnCondition='Slot_1_SAP', PartNo=partno.get())
+                    self.ctrl.updateVaribleIntoTable(Column='Slot_2' ,Sap=find.get(), ColumnCondition='Slot_2_SAP', PartNo=partno.get())
+                else:
+                    messagebox.showinfo('Error', f'Please check {find.get()} not match SAP format')
 
         def onClick_Change_Stator():
             pass
