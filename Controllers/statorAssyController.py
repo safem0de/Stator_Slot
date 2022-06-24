@@ -1,4 +1,5 @@
 import sqlite3
+import asyncio, random
 
 class statorAssy:
 
@@ -8,6 +9,7 @@ class statorAssy:
         self.__connection = sqlite3.connect('Stator_Slot.db')
 
     def select_count(self, where:list, value):
+        # await asyncio.sleep(delay=random.uniform(0, 0.0001))
         cursor = self.__connection.cursor()
         text = "Select * FROM Stator_Slot WHERE"
         count = 0
@@ -72,15 +74,14 @@ class statorAssy:
             cursor = self.__connection.cursor()
             print("Connected to SQLite")
 
-            __sqlite_update = """UPDATE Stator_Slot
-                SET """+ Column +""" = '"""+ Sap +"""'
-                WHERE """+ ColumnCondition +""" = '"""+ PartNo +"""';"""
+            __sqlite_update = """
+                UPDATE Stator_Slot
+                SET """+ Column +""" = ?
+                WHERE """+ ColumnCondition +""" = ? ;"""
 
-            # data_tuple = (Column, Sap, ColumnCondition, PartNo)
-            print(__sqlite_update)
-            cursor.execute(__sqlite_update)
+            data_tuple = (Sap, PartNo)
+            cursor.execute(__sqlite_update, data_tuple)
             self.__connection.commit()
-            # print("Python Variables Update successfully into SqliteDb_developers table")
 
             cursor.close()
 

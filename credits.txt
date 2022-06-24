@@ -15,3 +15,7 @@ Version 0.1 >> Start Launch Stator Slot
 Version 0.2 >> Add Data Function Launch
 - Add Data into Database Slot.
 - Validation Roughly details before input data.
+
+Version 0.3 >> Edit Data Function Launch
+- Edit Data into Database Slot.
+- Validation Roughly details before input data.
