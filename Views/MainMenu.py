@@ -839,14 +839,16 @@ class MainMenu(ttk.Frame):
         self.LblStator_ASearch.grid(row=0, column=0, padx=2, pady=2, sticky=tk.NW)
 
         self.Stator_ASearch = tk.StringVar()
-        self.txtStator_ASearch = ttk.Entry(self.LbFEditStator_AaddSAP, textvariable=self.Stator_ASearch, font=("Comic Sans MS", 14))
-        self.txtStator_ASearch.bind('<Return>', lambda event : Update_Click(event, ['Statorassy'], self.Stator_ASearch.get()))
-        self.txtStator_ASearch.bind('<Tab>', lambda event : Update_Click(event, ['Statorassy'], self.Stator_ASearch.get()))
-        self.txtStator_ASearch.bind("<Button-1>", lambda event: focus_in_add_panel(event, self.txtStator_ASearch))
-        self.txtStator_ASearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
+        self.TxtStator_ASearch = ttk.Entry(self.LbFEditStator_AaddSAP, textvariable=self.Stator_ASearch, font=("Comic Sans MS", 14))
+        self.TxtStator_ASearch.bind('<Return>',
+            lambda event : Update_Click(event, ['Statorassy'], self.Stator_ASearch.get(), [self.LblStator_A_SAP_Find,self.txtStator_A_SAP_Find,self.Btn_StatorA_Confirm]))
+        self.TxtStator_ASearch.bind('<Tab>',
+            lambda event : Update_Click(event, ['Statorassy'], self.Stator_ASearch.get(), [self.LblStator_A_SAP_Find,self.txtStator_A_SAP_Find,self.Btn_StatorA_Confirm]))
+        self.TxtStator_ASearch.bind("<Button-1>",
+            lambda event: focus_in_add_panel_edit(event, self.TxtStator_ASearch, [self.LblStator_A_SAP_Find,self.txtStator_A_SAP_Find,self.Btn_StatorA_Confirm]))
+        self.TxtStator_ASearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
 
-        # self.Btn_StatorA_Change = Button(self.LbFEditStator_AaddSAP, text='Change SAP No.')
-        # self.Btn_StatorA_Change.grid(row=0, column=2, padx=2, pady=2, sticky=tk.NSEW)
+        ############## --------------- SQL --------------- ##############
 
         self.LblStator_A_SAP_Find = Label(self.LbFEditStator_AaddSAP, text='SAP No. of Stator Assy', font=("Comic Sans MS", 14))
         self.LblStator_A_SAP_Find.grid(row=0, column=3, padx=2, pady=2, sticky=tk.NW)
@@ -873,26 +875,28 @@ class MainMenu(ttk.Frame):
         self.LblInsulatorSearch.grid(row=0, column=0, padx=2, pady=2, sticky=tk.NW)
 
         self.InsulatorSearch = tk.StringVar()
-        self.txtInsulatorSearch = ttk.Entry(self.LbFEditInsulatorSAP, textvariable=self.InsulatorSearch, font=("Comic Sans MS", 14))
-        self.txtInsulatorSearch.bind('<Return>', lambda event :Update_Click(event, ['Slot_1','Slot_2'], self.InsulatorSearch.get()))
-        self.txtInsulatorSearch.bind('<Tab>', lambda event : Update_Click(event, ['Slot_1','Slot_2'], self.InsulatorSearch.get()))
-        self.txtInsulatorSearch.bind("<Button-1>", lambda event: focus_in_add_panel(event, self.txtInsulatorSearch))
-        self.txtInsulatorSearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
+        self.TxtInsulatorSearch = ttk.Entry(self.LbFEditInsulatorSAP, textvariable=self.InsulatorSearch, font=("Comic Sans MS", 14))
+        self.TxtInsulatorSearch.bind('<Return>',
+            lambda event : Update_Click(event, ['Slot_1','Slot_2'], self.InsulatorSearch.get(), [self.LblInsulator_SAP_Find, self.TxtInsulator_SAP_Find, self.Btn_Insulator_Confirm]))
+        self.TxtInsulatorSearch.bind('<Tab>',
+            lambda event : Update_Click(event, ['Slot_1','Slot_2'], self.InsulatorSearch.get(), [self.LblInsulator_SAP_Find, self.TxtInsulator_SAP_Find, self.Btn_Insulator_Confirm]))
+        self.TxtInsulatorSearch.bind("<Button-1>",
+            lambda event : focus_in_add_panel_edit(event, self.TxtInsulatorSearch, [self.LblInsulator_SAP_Find, self.TxtInsulator_SAP_Find, self.Btn_Insulator_Confirm]))
+        self.TxtInsulatorSearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
 
-        # self.Btn_Insulator_Change = Button(self.LbFEditInsulatorSAP, text='Change SAP No.')
-        # self.Btn_Insulator_Change.grid(row=0, column=2, padx=2, pady=2, sticky=tk.NSEW)
+        ############## --------------- SQL --------------- ##############
 
         self.LblInsulator_SAP_Find = Label(self.LbFEditInsulatorSAP, text='SAP No. of Insulator', font=("Comic Sans MS", 14))
         self.LblInsulator_SAP_Find.grid(row=0, column=3, padx=2, pady=2, sticky=tk.NW)
         self.LblInsulator_SAP_Find['state'] = 'disabled'
 
         self.Insulator_SAP_Find = tk.StringVar()
-        self.Insulator_SAP_Find = ttk.Entry(self.LbFEditInsulatorSAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
-        self.Insulator_SAP_Find.bind('<Return>', lambda event : print('test'))
-        self.Insulator_SAP_Find.bind('<Tab>', lambda event : print('test'))
-        self.Insulator_SAP_Find.bind("<Button-1>", lambda event: print('test'))
-        self.Insulator_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
-        self.Insulator_SAP_Find['state'] = 'disabled'
+        self.TxtInsulator_SAP_Find = ttk.Entry(self.LbFEditInsulatorSAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
+        self.TxtInsulator_SAP_Find.bind('<Return>', lambda event : print('test'))
+        self.TxtInsulator_SAP_Find.bind('<Tab>', lambda event : print('test'))
+        self.TxtInsulator_SAP_Find.bind("<Button-1>", lambda event: print('test'))
+        self.TxtInsulator_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
+        self.TxtInsulator_SAP_Find['state'] = 'disabled'
 
         self.Btn_Insulator_Confirm = Button(self.LbFEditInsulatorSAP, text='Confirm SAP No.')
         self.Btn_Insulator_Confirm.grid(row=0, column=5, padx=2, pady=2, sticky=tk.NSEW)
@@ -908,39 +912,47 @@ class MainMenu(ttk.Frame):
         self.LblStatorSearch.grid(row=0, column=0, padx=2, pady=2, sticky=tk.NW)
 
         self.StatorSearch = tk.StringVar()
-        self.txtStatorSearch = ttk.Entry(self.LbFEditStatorChg_SAP, textvariable=self.StatorSearch, font=("Comic Sans MS", 14))
-        self.txtStatorSearch.bind('<Return>', lambda event : print('test'))
-        self.txtStatorSearch.bind('<Tab>', lambda event : print('test'))
-        self.txtStatorSearch.bind("<Button-1>", lambda event: print('test'))
-        self.txtStatorSearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
+        self.TxtStatorSearch = ttk.Entry(self.LbFEditStatorChg_SAP, textvariable=self.StatorSearch, font=("Comic Sans MS", 14))
+        self.TxtStatorSearch.bind('<Return>', 
+            lambda event : Update_Click(event, ['StackNo'], self.StatorSearch.get(), [self.LblStator_SAP_Find, self.TxtStator_SAP_Find, self.Btn_Stator_Confirm]))
+        self.TxtStatorSearch.bind('<Tab>',
+            lambda event : Update_Click(event, ['StackNo'], self.StatorSearch.get(), [self.LblStator_SAP_Find, self.TxtStator_SAP_Find, self.Btn_Stator_Confirm]))
+        self.TxtStatorSearch.bind("<Button-1>",
+            lambda event : focus_in_add_panel_edit(event, self.TxtStatorSearch, [self.LblStator_SAP_Find, self.TxtStator_SAP_Find, self.Btn_Stator_Confirm]))
+        self.TxtStatorSearch.grid(row=0, column=1, padx=2, pady=2, sticky=tk.NW)
 
-        # self.Btn_Stator_Change = Button(self.LbFEditStatorChg_SAP, text='Change SAP No.')
-        # self.Btn_Stator_Change.grid(row=0, column=2, padx=2, pady=2, sticky=tk.NSEW)
+        ############## --------------- SQL --------------- ##############
 
         self.LblStator_SAP_Find = Label(self.LbFEditStatorChg_SAP, text='SAP No. of Stator', font=("Comic Sans MS", 14))
         self.LblStator_SAP_Find.grid(row=0, column=3, padx=2, pady=2, sticky=tk.NW)
         self.LblStator_SAP_Find['state'] = 'disabled'
 
         self.Stator_SAP_Find = tk.StringVar()
-        self.Stator_SAP_Find = ttk.Entry(self.LbFEditStatorChg_SAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
-        self.Stator_SAP_Find.bind('<Return>', lambda event : print('test'))
-        self.Stator_SAP_Find.bind('<Tab>', lambda event : print('test'))
-        self.Stator_SAP_Find.bind("<Button-1>", lambda event: print('test'))
-        self.Stator_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
-        self.Stator_SAP_Find['state'] = 'disabled'
+        self.TxtStator_SAP_Find = ttk.Entry(self.LbFEditStatorChg_SAP, textvariable=self.Stator_A_SAP_Find, font=("Comic Sans MS", 14))
+        self.TxtStator_SAP_Find.bind('<Return>', lambda event : print('test'))
+        self.TxtStator_SAP_Find.bind('<Tab>', lambda event : print('test'))
+        self.TxtStator_SAP_Find.bind("<Button-1>", lambda event: print('test'))
+        self.TxtStator_SAP_Find.grid(row=0, column=4, padx=2, pady=2, sticky=tk.NW)
+        self.TxtStator_SAP_Find['state'] = 'disabled'
 
         self.Btn_Stator_Confirm = Button(self.LbFEditStatorChg_SAP, text='Confirm SAP No.')
         self.Btn_Stator_Confirm.grid(row=0, column=5, padx=2, pady=2, sticky=tk.NSEW)
         self.Btn_Stator_Confirm['state'] = 'disabled'
 
-        def Update_Click(event, find_col, find):
+        def Update_Click(event, find_col, find, element:list):
             x = self.ctrl.select_count(find_col, find)
             if x > 0:
-                self.LblStator_A_SAP_Find.config(state='active')
-                self.txtStator_A_SAP_Find.config(state='active')
-                self.Btn_StatorA_Confirm.config(state='active')
-            else:
-                self.LblStator_A_SAP_Find.config(state='disabled')
-                self.txtStator_A_SAP_Find.config(state='disabled')
-                self.Btn_StatorA_Confirm.config(state='disabled')
-            
+                for i in element:
+                    i.configure(state='active')
+            else: 
+                pass
+
+        def focus_in_add_panel_edit(event, Txt:ttk.Entry, element:list):
+            try:
+                Txt.delete(0,END)
+                Txt.focus()
+
+                for i in element:
+                    i.configure(state='disabled')
+            except:
+                pass
