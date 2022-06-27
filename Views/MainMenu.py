@@ -989,8 +989,8 @@ class MainMenu(ttk.Frame):
             else:
                 y = re.match("^1[0-9]{10}", find.get())
                 if y:
-                    statorAssy().updateVaribleIntoTable(Column='Slot_1_SAP' ,Sap=find.get(), ColumnCondition='Slot_1', PartNo=partno.get())
-                    statorAssy().updateVaribleIntoTable(Column='Slot_2_SAP' ,Sap=find.get(), ColumnCondition='Slot_2', PartNo=partno.get())
+                    Thread(statorAssy().updateVaribleIntoTable(Column='Slot_1_SAP' ,Sap=find.get(), ColumnCondition='Slot_1', PartNo=partno.get())).start()
+                    Thread(statorAssy().updateVaribleIntoTable(Column='Slot_2_SAP' ,Sap=find.get(), ColumnCondition='Slot_2', PartNo=partno.get())).start()
                     messagebox.showinfo('Completed', f'Updated {find.get()}')
                     Master_of_Edit()
                 else:
